@@ -17,7 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.WeatherActivity"></activity>
+        <activity
+            android:name=".activity.WeatherActivity"></activity>
+
+        <service
+            android:name=".service.AutoUpdateService"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"></service>
+
+        <receiver android:name=".receivr.AutoUpdateReceiver"></receiver>
     </application>
 
 </manifest>
