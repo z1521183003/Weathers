@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zjh.com.weathers.R;
-import zjh.com.weathers.db.CoolWeatherDB;
+import zjh.com.weathers.db.WeatherDB;
 import zjh.com.weathers.model.City;
 import zjh.com.weathers.model.County;
 import zjh.com.weathers.model.Province;
@@ -43,7 +43,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
     private TextView titleText;
     private ListView listView;
     private ArrayAdapter<String> adapter;
-    private CoolWeatherDB coolWeatherDB;
+    private WeatherDB weatherDB;
     private List<String> dataList = new ArrayList<String>();
     /**
      * 省列表
@@ -94,7 +94,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
         titleText = (TextView) findViewById(R.id.title_text);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
-        coolWeatherDB = CoolWeatherDB.getInstance(this);
+        weatherDB = WeatherDB.getInstance(this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,7 +120,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
      * 查询全国所有的省，优先从数据库查询，如果没有查询到再去服务器上查询。
      */
     private void queryProvinces() {
-        provinceList = coolWeatherDB.loadProvinces();
+        provinceList = weatherDB.loadProvinces();
         if (provinceList.size() > 0) {
             dataList.clear();
             for (Province province : provinceList) {
@@ -139,7 +139,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
      * 查询选中省内所有的市，优先从数据库查询，如果没有查询到再去服务器上查询。
      */
     private void queryCities() {
-        cityList = coolWeatherDB.loadCities(selectedProvince.getId());
+        cityList = weatherDB.loadCities(selectedProvince.getId());
         if (cityList.size() > 0) {
             dataList.clear();
             for (City city : cityList) {
@@ -158,7 +158,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
      * 查询选中市内所有的县，优先从数据库查询，如果没有查询到再去服务器上查询。
      */
     private void queryCounties() {
-        countyList = coolWeatherDB.loadCounties(selectedCity.getId());
+        countyList = weatherDB.loadCounties(selectedCity.getId());
         if (countyList.size() > 0) {
             dataList.clear();
             for (County county : countyList) {
@@ -189,13 +189,13 @@ public class ChooseAreaActivity extends AppCompatActivity {
             public void onFinish(String response) {
                 boolean result = false;
                 if ("province".equals(type)) {
-                    result = Utility.handleProvincesResponse(coolWeatherDB,
+                    result = Utility.handleProvincesResponse(weatherDB,
                             response);
                 } else if ("city".equals(type)) {
-                    result = Utility.handleCitiesResponse(coolWeatherDB,
+                    result = Utility.handleCitiesResponse(weatherDB,
                             response, selectedProvince.getId());
                 } else if ("county".equals(type)) {
-                    result = Utility.handleCountiesResponse(coolWeatherDB,
+                    result = Utility.handleCountiesResponse(weatherDB,
                             response, selectedCity.getId());
                 }
                 if (result) {

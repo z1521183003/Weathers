@@ -19,7 +19,7 @@ import zjh.com.weathers.model.Province;
  * 创建时间： 2017/8/3 19:29.
  * 描述： 数据库
  */
-public class CoolWeatherDB {
+public class WeatherDB {
     /**
      * 数据库名
      */
@@ -30,15 +30,15 @@ public class CoolWeatherDB {
      */
     public static final int VERSION = 1;
     
-    private static CoolWeatherDB coolWeatherDB;
+    private static WeatherDB weatherDB;
     
     private SQLiteDatabase db;
     
     /**
      * 将构造方法私有化
      */
-    private CoolWeatherDB(Context context) {
-        CoolWeatherOpenHelper dbHelper = new CoolWeatherOpenHelper(context,
+    private WeatherDB(Context context) {
+        WeatherOpenHelper dbHelper = new WeatherOpenHelper(context,
                 DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
@@ -46,11 +46,11 @@ public class CoolWeatherDB {
     /**
      * 获取CoolWeatherDB的实例。
      */
-    public synchronized static CoolWeatherDB getInstance(Context context) {
-        if (coolWeatherDB == null) {
-            coolWeatherDB = new CoolWeatherDB(context);
+    public synchronized static WeatherDB getInstance(Context context) {
+        if (weatherDB == null) {
+            weatherDB = new WeatherDB(context);
         }
-        return coolWeatherDB;
+        return weatherDB;
     }
     
     /**

@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 创建时间： 2017/8/3 19:26.
  * 描述： 建表
  */
-public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
+public class WeatherOpenHelper extends SQLiteOpenHelper {
     
     /**
      * Province表建表语句
@@ -37,7 +37,7 @@ public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
             + "county_code text, "
             + "city_id integer)";
     
-    public CoolWeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public WeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
     
