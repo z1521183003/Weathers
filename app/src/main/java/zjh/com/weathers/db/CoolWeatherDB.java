@@ -19,36 +19,38 @@ import zjh.com.weathers.model.Province;
  * 创建时间： 2017/8/3 19:29.
  * 描述： 数据库
  */
-public class WeatherDB {
+public class CoolWeatherDB {
     /**
      * 数据库名
      */
-    public static final String DB_NAME = "weather";
+    public static final String DB_NAME = "cool_weather";
+    
     /**
      * 数据库版本
      */
     public static final int VERSION = 1;
     
-    private static WeatherDB weatherDB;
+    private static CoolWeatherDB coolWeatherDB;
     
     private SQLiteDatabase db;
     
     /**
      * 将构造方法私有化
      */
-    private WeatherDB(Context context) {
-        WeatherOpenHelper odbHelper = new WeatherOpenHelper(context, DB_NAME, null, VERSION);
-        db = odbHelper.getWritableDatabase();
+    private CoolWeatherDB(Context context) {
+        CoolWeatherOpenHelper dbHelper = new CoolWeatherOpenHelper(context,
+                DB_NAME, null, VERSION);
+        db = dbHelper.getWritableDatabase();
     }
     
     /**
      * 获取CoolWeatherDB的实例。
      */
-    public synchronized static WeatherDB getCoolWeatherDB(Context context) {
-        if (weatherDB == null) {
-            weatherDB = new WeatherDB(context);
+    public synchronized static CoolWeatherDB getInstance(Context context) {
+        if (coolWeatherDB == null) {
+            coolWeatherDB = new CoolWeatherDB(context);
         }
-        return weatherDB;
+        return coolWeatherDB;
     }
     
     /**
@@ -68,18 +70,22 @@ public class WeatherDB {
      */
     public List<Province> loadProvinces() {
         List<Province> list = new ArrayList<Province>();
-        Cursor cursor = db.query("Province", null, null, null, null, null, null);
-        if (cursor.moveToFirst()){
+        Cursor cursor = db
+                .query("Province", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
             do {
-                Province province=new Province();
+                Province province = new Province();
                 province.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                province.setProvinceName(cursor.getString(cursor.getColumnIndex("province_name")));
-                province.setProvinceCode(cursor.getString(cursor.getColumnIndex("province_code")));
+                province.setProvinceName(cursor.getString(cursor
+                        .getColumnIndex("province_name")));
+                province.setProvinceCode(cursor.getString(cursor
+                        .getColumnIndex("province_code")));
                 list.add(province);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return list;
     }
+    
     /**
      * 将City实例存储到数据库。
      */
@@ -149,5 +155,4 @@ public class WeatherDB {
         }
         return list;
     }
-    
 }

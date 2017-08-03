@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import zjh.com.weathers.R;
 
-public class WealthActivity extends AppCompatActivity {
+public class WeatherActivity extends AppCompatActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
